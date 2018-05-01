@@ -1,31 +1,36 @@
 
 package com.zhuinden.espressohelper
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.*
-import android.support.test.espresso.action.*
-import android.support.test.espresso.matcher.ViewMatchers
+import android.support.constraint.ConstraintLayout
+import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-
+import com.zhuinden.espressohelper.conditionwatcher.ConditionWatcher
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
-import org.junit.Test
 
 /**
  * Instrumented Test2, which will execute on an Android device.
  *
- * See [Test2ing documentation](http://d.android.com/tools/Test2ing).
+ * See [Testing documentation](http://d.android.com/tools/Testing).
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under Test2.
-        val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.zhuinden.espressohelper", appContext.packageName)
 
-        //Espresso.onView(ViewMatchers.withId(R.id.button)).perform(ViewActions.click())
+    @JvmField
+    @field:Rule
+    var rule = ActivityTestRule(MainActivity::class.java)
+
+    @Test
+    fun clickButton() {
+        R.id.container.checkIsAssignableFrom<ConstraintLayout>()
+        R.id.hello_world.checkHasText("Hello World!")
+        R.id.username.performTypeText("This is a test!")
+        R.id.username.performCloseSoftKeyboard()
+        R.id.password.performTypeText("hunter2")
+        R.id.password.performCloseSoftKeyboard()
         R.id.button.performClick()
+        ConditionWatcher.waitForCondition { true }
     }
 }

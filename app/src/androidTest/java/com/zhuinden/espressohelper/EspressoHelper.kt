@@ -444,6 +444,14 @@ fun Int.isStringResOf(@IdRes viewId: Int) {
     viewId.matchView().check(ViewAssertions.matches(ViewMatchers.withText(this)))
 }
 
+inline fun <reified T : View> ViewInteraction.checkHasChild() {
+    check(ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.isAssignableFrom(T::class.java))))
+}
+
+inline fun <reified T : View> ViewInteraction.checkIsAssignableFrom() {
+    check(ViewAssertions.matches(ViewMatchers.isAssignableFrom(T::class.java)))
+}
+
 // Kokoa assertions
 fun ViewInteraction.checkIsDisplayed() {
     check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -960,6 +968,15 @@ fun Int.checkIsSwipeRefreshLayoutNotRefreshing() {
 fun Int.checkIsBottomNavigationViewItemSelected(id: Int) {
     matchView().checkIsBottomNavigationViewItemSelected(id)
 }
+
+inline fun <reified T: View> Int.checkHasChild() {
+    matchView().checkHasChild<T>()
+}
+
+inline fun <reified T: View> Int.checkIsAssignableFrom() {
+    matchView().checkIsAssignableFrom<T>()
+}
+
 
 // from Agoda-Com/Kakao
 private class IdleAction(val duration: Long = DEFAULT_DURATION) : ViewAction {
