@@ -23,7 +23,6 @@ import android.widget.*
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import kotlin.text.isNullOrEmpty
 
 // https://github.com/agoda-com/Kakao/blob/914d9bcdf50fc2c6f1771bcb359844132f66b99b/kakao/src/main/kotlin/com/agoda/kakao/Matchers.kt
 

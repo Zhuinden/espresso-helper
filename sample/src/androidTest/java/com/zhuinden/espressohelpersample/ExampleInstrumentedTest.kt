@@ -1,9 +1,10 @@
 
-package com.zhuinden.espressohelper
+package com.zhuinden.espressohelpersample
 
 import android.support.constraint.ConstraintLayout
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.zhuinden.espressohelper.*
 import com.zhuinden.espressohelper.conditionwatcher.ConditionWatcher
 import org.junit.Rule
 import org.junit.Test
