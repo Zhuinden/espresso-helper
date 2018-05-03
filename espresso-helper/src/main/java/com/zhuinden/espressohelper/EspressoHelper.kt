@@ -17,6 +17,7 @@
  */
 package com.zhuinden.espressohelper
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -34,6 +35,8 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.contrib.DrawerActions
 import android.support.test.espresso.contrib.NavigationViewActions
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.intent.Intents
+import android.support.test.espresso.intent.matcher.IntentMatchers
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
@@ -43,6 +46,12 @@ import android.widget.*
 import org.hamcrest.*
 
 
+// Intent helper
+
+inline fun <reified T: Activity> checkNextActivity() = Intents.intended(IntentMatchers.hasComponent(T::class.java.name))
+
+// ID matchers
+
 fun Int.asIdViewMatcher() = ViewMatchers.withId(this)
 
 fun matchRoot(): ViewInteraction = matchView(ViewMatchers.isRoot())
@@ -51,7 +60,7 @@ fun matchView(matcher: Matcher<View>): ViewInteraction = Espresso.onView(matcher
 
 fun Int.matchView(): ViewInteraction = matchView(asIdViewMatcher())
 
-fun Int.performViewAction(action: ViewAction) = matchView().perform(action)
+fun Int.performViewAction(vararg action: ViewAction) = matchView().perform(*action)
 
 // ID extensions
 
@@ -145,17 +154,23 @@ fun Int.getTabLayoutSelectedItem(): Int = matchView().getTabLayoutSelectedItem()
 
 fun Int.performSetRefreshLayoutRefreshing(refreshing: Boolean) = matchView().performSetRefreshLayoutRefreshing(refreshing)
 
+fun <T: RecyclerView.ViewHolder> Int.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) = matchView().performActionOnRecyclerHolderItem(viewHolderMatcher, action)
+
+fun <T: RecyclerView.ViewHolder> Int.performActionOnRecyclerItem(itemViewMatcher: Matcher<View>, action: ViewAction) = matchView().performActionOnRecyclerItem<T>(itemViewMatcher, action)
+
+fun <T: RecyclerView.ViewHolder> Int.performActionOnRecyclerItemAtPosition(position: Int, action: ViewAction) = matchView().performActionOnRecyclerItemAtPosition<T>(position, action)
+
 // interactions
 
 fun ViewInteraction.performClick() = perform(ViewActions.click())
 
-fun ViewInteraction.performTypeText(text: String) = perform(ViewActions.typeText(text))
+fun ViewInteraction.performTypeText(text: String) = perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard())
 
-fun ViewInteraction.performTypeTextIntoFocusedView(text: String) = perform(ViewActions.typeTextIntoFocusedView(text))
+fun ViewInteraction.performTypeTextIntoFocusedView(text: String) = perform(ViewActions.typeTextIntoFocusedView(text), ViewActions.closeSoftKeyboard())
 
-fun ViewInteraction.performReplaceText(text: String) = perform(ViewActions.replaceText(text))
+fun ViewInteraction.performReplaceText(text: String) = perform(ViewActions.replaceText(text), ViewActions.closeSoftKeyboard())
 
-fun ViewInteraction.performClearText() = perform(ViewActions.clearText())
+fun ViewInteraction.performClearText() = perform(ViewActions.clearText(), ViewActions.closeSoftKeyboard())
 
 fun ViewInteraction.performClick(inputDevice: Int, buttonState: Int) = perform(ViewActions.click(inputDevice, buttonState))
 
@@ -228,6 +243,18 @@ fun ViewInteraction.performScrollRecyclerTo(position: Int) {
 
 fun ViewInteraction.performScrollRecyclerTo(matcher: Matcher<View>) {
     perform(RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(matcher))
+}
+
+fun <T: RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) {
+    perform(RecyclerViewActions.actionOnHolderItem(viewHolderMatcher, action))
+}
+
+fun <T: RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerItem(itemViewMatcher: Matcher<View>, action: ViewAction) {
+    perform(RecyclerViewActions.actionOnItem<T>(itemViewMatcher, action))
+}
+
+fun <T: RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerItemAtPosition(position: Int, action: ViewAction) {
+    perform(RecyclerViewActions.actionOnItemAtPosition<T>(position, action))
 }
 
 fun ViewInteraction.recyclerAdapterSize(): Int {

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">espresso-helper</string>
+    <string name="hello_world">Hello world!</string>
 </resources>
