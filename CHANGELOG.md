@@ -1,8 +1,10 @@
-# Espresso-Helper 0.1.1 (2018-05-XX)
+# Espresso-Helper 0.1.1 (2018-05-03)
 
-- Add `performActionOnRecyclerHolderItem`, `performActionOnRecyclerItem`, `performActionOnRecyclerItemAtPosition`
+- Add `checkCurrentActivityIs()` (with `ActivityLifecycleMonitorRegistry`), and `checkNextActivityByIntent()` (with `IntentsTestRule`)
 
-- Add `checkNextActivity<T>`.
+- Add `rotate*()` methods.
+
+- Add `performActionOnRecyclerHolderItem`, `performActionOnRecyclerItem`, `performActionOnRecyclerItemAtPosition`.
 
 - Add `closeSoftKeyboard()` to `typeText`, `clearText`, `typeTextIntoFocusedView` and `replaceText`.
 

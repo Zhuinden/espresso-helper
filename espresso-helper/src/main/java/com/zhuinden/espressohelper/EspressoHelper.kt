@@ -18,6 +18,8 @@
 package com.zhuinden.espressohelper
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -28,6 +30,7 @@ import android.support.annotation.StringRes
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.TabLayout
 import android.support.design.widget.TextInputLayout
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.*
 import android.support.test.espresso.action.EspressoKey
 import android.support.test.espresso.action.ViewActions
@@ -38,6 +41,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.intent.Intents
 import android.support.test.espresso.intent.matcher.IntentMatchers
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import android.support.test.runner.lifecycle.Stage
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
@@ -46,9 +51,48 @@ import android.widget.*
 import org.hamcrest.*
 
 
+// Rotation
+fun Activity.rotateToLandscape() {
+    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+}
+
+fun Activity.rotateToPortrait() {
+    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+}
+
+fun Activity.rotateOrientation() = resources.configuration.orientation.let { currentOrientation ->
+    when (currentOrientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> rotateToPortrait()
+        Configuration.ORIENTATION_PORTRAIT -> rotateToLandscape()
+        else -> rotateToLandscape()
+    }
+}
+
+// Get current activity
+fun getCurrentActivity(): Activity {
+    // The array is just to wrap the Activity and be able to access it from the Runnable.
+    val resumedActivity = arrayOfNulls<Activity>(1)
+    InstrumentationRegistry.getInstrumentation().runOnMainSync {
+        val resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
+        if (resumedActivities.iterator().hasNext()) {
+            resumedActivity[0] = resumedActivities.iterator().next();
+        } else {
+            throw IllegalStateException("No Activity in stage RESUMED");
+        }
+    }
+    return resumedActivity[0]!!
+}
+
+inline fun <reified T : Activity> checkCurrentActivityIs() {
+    val currentActivity = getCurrentActivity()
+    if (!(currentActivity is T)) {
+        throw IllegalStateException("Activity should be ${T::class.java.simpleName} but was ${currentActivity::class.java.simpleName}")
+    }
+}
+
 // Intent helper
 
-inline fun <reified T: Activity> checkNextActivity() = Intents.intended(IntentMatchers.hasComponent(T::class.java.name))
+inline fun <reified T : Activity> checkNextActivityByIntent() = Intents.intended(IntentMatchers.hasComponent(T::class.java.name))
 
 // ID matchers
 
@@ -154,11 +198,11 @@ fun Int.getTabLayoutSelectedItem(): Int = matchView().getTabLayoutSelectedItem()
 
 fun Int.performSetRefreshLayoutRefreshing(refreshing: Boolean) = matchView().performSetRefreshLayoutRefreshing(refreshing)
 
-fun <T: RecyclerView.ViewHolder> Int.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) = matchView().performActionOnRecyclerHolderItem(viewHolderMatcher, action)
+fun <T : RecyclerView.ViewHolder> Int.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) = matchView().performActionOnRecyclerHolderItem(viewHolderMatcher, action)
 
-fun <T: RecyclerView.ViewHolder> Int.performActionOnRecyclerItem(itemViewMatcher: Matcher<View>, action: ViewAction) = matchView().performActionOnRecyclerItem<T>(itemViewMatcher, action)
+fun <T : RecyclerView.ViewHolder> Int.performActionOnRecyclerItem(itemViewMatcher: Matcher<View>, action: ViewAction) = matchView().performActionOnRecyclerItem<T>(itemViewMatcher, action)
 
-fun <T: RecyclerView.ViewHolder> Int.performActionOnRecyclerItemAtPosition(position: Int, action: ViewAction) = matchView().performActionOnRecyclerItemAtPosition<T>(position, action)
+fun <T : RecyclerView.ViewHolder> Int.performActionOnRecyclerItemAtPosition(position: Int, action: ViewAction) = matchView().performActionOnRecyclerItemAtPosition<T>(position, action)
 
 // interactions
 
@@ -245,15 +289,15 @@ fun ViewInteraction.performScrollRecyclerTo(matcher: Matcher<View>) {
     perform(RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(matcher))
 }
 
-fun <T: RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) {
+fun <T : RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) {
     perform(RecyclerViewActions.actionOnHolderItem(viewHolderMatcher, action))
 }
 
-fun <T: RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerItem(itemViewMatcher: Matcher<View>, action: ViewAction) {
+fun <T : RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerItem(itemViewMatcher: Matcher<View>, action: ViewAction) {
     perform(RecyclerViewActions.actionOnItem<T>(itemViewMatcher, action))
 }
 
-fun <T: RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerItemAtPosition(position: Int, action: ViewAction) {
+fun <T : RecyclerView.ViewHolder> ViewInteraction.performActionOnRecyclerItemAtPosition(position: Int, action: ViewAction) {
     perform(RecyclerViewActions.actionOnItemAtPosition<T>(position, action))
 }
 
@@ -996,11 +1040,11 @@ fun Int.checkIsBottomNavigationViewItemSelected(id: Int) {
     matchView().checkIsBottomNavigationViewItemSelected(id)
 }
 
-inline fun <reified T: View> Int.checkHasChild() {
+inline fun <reified T : View> Int.checkHasChild() {
     matchView().checkHasChild<T>()
 }
 
-inline fun <reified T: View> Int.checkIsAssignableFrom() {
+inline fun <reified T : View> Int.checkIsAssignableFrom() {
     matchView().checkIsAssignableFrom<T>()
 }
 

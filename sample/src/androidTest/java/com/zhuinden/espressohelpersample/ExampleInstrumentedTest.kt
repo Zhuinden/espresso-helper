@@ -24,12 +24,18 @@ class ExampleInstrumentedTest {
 
     @Test
     fun clickButton() {
+        val activity = rule.activity
         R.id.container.checkIsAssignableFrom<ConstraintLayout>()
         R.id.helloWorld.checkHasText(R.string.hello_world)
         R.id.username.performTypeText("This is a test!")
         R.id.password.performTypeText("hunter2")
+        activity.rotateOrientation()
+        activity.rotateOrientation()
         R.id.button.performClick()
-        checkNextActivity<SecondActivity>()
+        checkNextActivityByIntent<SecondActivity>()
+        activity.rotateOrientation()
         R.id.secondText.checkHasText("Well done!")
+        activity.rotateOrientation()
+        checkCurrentActivityIs<SecondActivity>()
     }
 }

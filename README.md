@@ -38,7 +38,7 @@ In order to use Espresso Helper, you need to add jitpack to your project root gr
 
 and add the compile dependency to your module level gradle.
 
-    androidTestImplementation 'com.github.Zhuinden:espresso-helper:0.1.0'
+    androidTestImplementation 'com.github.Zhuinden:espresso-helper:0.1.1'
 
 
 ## License
