@@ -9,6 +9,8 @@ Espresso.onView(ViewMatchers.withId(R.id.button)).perform(ViewActions.click())
 Fret not! With the help of Espresso-Helper, heavily borrowing assertions and matchers from agoda-com/Kakao, we can simplify this to the following:
 
 ``` kotlin
+import com.zhuinden.espressohelper.*
+
 R.id.button.performClick()
 ```
 
