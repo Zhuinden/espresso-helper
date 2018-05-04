@@ -3,10 +3,7 @@ package com.zhuinden.espressohelper
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.StateListDrawable
+import android.graphics.drawable.*
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
@@ -160,8 +157,7 @@ class NavigationItemMatcher(private val id: Int) : BoundedMatcher<View, Navigati
         desc.appendText("Matches view with menu item checked: $id")
     }
 
-    override fun matchesSafely(view: NavigationView)
-        = view.menu.getItem(id)?.isChecked ?: false
+    override fun matchesSafely(view: NavigationView) = view.menu.getItem(id)?.isChecked ?: false
 }
 
 /**
@@ -197,7 +193,8 @@ class RatingBarMatcher(private val value: Float) : BoundedMatcher<View, RatingBa
  */
 class RecyclerViewAdapterSizeMatcher(private val size: Int) : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
     override fun matchesSafely(view: RecyclerView?) = view?.adapter?.let {
-        it.itemCount == size } ?: false
+        it.itemCount == size
+    } ?: false
 
     override fun describeTo(description: Description) {
         description.appendText("recycle view size is: $size")
@@ -211,7 +208,8 @@ class RecyclerViewAdapterSizeMatcher(private val size: Int) : BoundedMatcher<Vie
  */
 class ListViewViewAdapterSizeMatcher(private val size: Int) : BoundedMatcher<View, ListView>(ListView::class.java) {
     override fun matchesSafely(view: ListView?) = view?.adapter?.let {
-        it.count == size } ?: false
+        it.count == size
+    } ?: false
 
     override fun describeTo(description: Description) {
         description.appendText("recycle view size is: $size")
@@ -349,17 +347,28 @@ class BackgroundColorMatcher(@ColorRes private val resId: Int = -1,
             return item?.background == null
         }
 
-        return item?.let{
-            val expectedColor = if (resId != -1) {
-                ContextCompat.getColor(it.context, resId)
-            } else {
-                Color.parseColor(colorCode)
+        return item?.let { view ->
+            val expectedColor = when {
+                resId != -1 -> ContextCompat.getColor(view.context, resId)
+                else -> Color.parseColor(colorCode)
             }
 
-            it.background != null &&
-                it.background.current is ColorDrawable &&
-                (it.background.current as ColorDrawable).color == expectedColor
-        }?: false
+            return when {
+                view.background == null -> false
+                else -> {
+                    val current = view.background.current
+                    when (current) {
+                        is ColorDrawable -> current.color == expectedColor
+                        is GradientDrawable -> if (android.os.Build.VERSION.SDK_INT >= 24) {
+                            current.color.defaultColor == expectedColor
+                        } else {
+                            false // not much I can do here
+                        }
+                        else -> false
+                    }
+                }
+            }
+        } ?: false
     }
 
     override fun describeTo(description: Description) {

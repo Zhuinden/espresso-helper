@@ -32,7 +32,6 @@ class ExampleInstrumentedTest {
         activity.rotateOrientation()
         activity.rotateOrientation()
         R.id.button.performClick()
-        checkNextActivityByIntent<SecondActivity>()
         activity.rotateOrientation()
         R.id.secondText.checkHasText("Well done!")
         activity.rotateOrientation()

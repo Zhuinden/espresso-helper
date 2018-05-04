@@ -90,10 +90,6 @@ inline fun <reified T : Activity> checkCurrentActivityIs() {
     }
 }
 
-// Intent helper
-
-inline fun <reified T : Activity> checkNextActivityByIntent() = Intents.intended(IntentMatchers.hasComponent(T::class.java.name))
-
 // ID matchers
 
 fun Int.asIdViewMatcher() = ViewMatchers.withId(this)
