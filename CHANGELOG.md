@@ -1,3 +1,9 @@
+# Espresso-Helper 0.1.3 (2018-05-12)
+
+- **Bugfix:** add missing `'com.android.support.test:rules:1.0.2'` transitive dependency, you don't need to add it yourself anymore 
+
+- Add `ActivityTestRule.waitOnMainThread()` to allow waiting for the completion of UI-thread-bound callbacks.
+
 # Espresso-Helper 0.1.2 (2018-05-05)
 
 - Remove `checkNextActivityByIntent()` because it is not needed next to `checkCurrentActivityIs`

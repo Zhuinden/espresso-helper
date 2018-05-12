@@ -39,6 +39,7 @@ import android.support.test.espresso.contrib.DrawerActions
 import android.support.test.espresso.contrib.NavigationViewActions
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import android.support.test.runner.lifecycle.Stage
 import android.support.v4.widget.SwipeRefreshLayout
@@ -47,7 +48,21 @@ import android.view.Gravity
 import android.view.View
 import android.widget.*
 import org.hamcrest.*
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
+
+// Wait for UI thread
+private typealias InvokeOnComplete = () -> Unit
+
+fun <T: Activity> ActivityTestRule<T>.waitOnMainThread(duration: Long = 15L, timeUnit: TimeUnit = TimeUnit.SECONDS, executionBlock: (InvokeOnComplete) -> Unit) {
+    val latch = CountDownLatch(1)
+    val completionCallback = { latch.countDown() }
+    runOnUiThread {
+        executionBlock(completionCallback)
+    }
+    MatcherAssert.assertThat("Waiting timed out, callback was never invoked.", latch.await(duration, timeUnit), CoreMatchers.`is`(true))
+}
 
 // Rotation
 fun Activity.rotateToLandscape() {

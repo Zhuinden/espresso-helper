@@ -2,7 +2,7 @@
 package com.zhuinden.espressohelpersample
 
 import android.support.constraint.ConstraintLayout
-import android.support.test.espresso.intent.rule.IntentsTestRule
+import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.zhuinden.espressohelper.*
 import org.junit.Rule
@@ -20,7 +20,7 @@ class ExampleInstrumentedTest {
 
     @JvmField
     @field:Rule
-    var rule = IntentsTestRule(MainActivity::class.java)
+    var rule = ActivityTestRule(MainActivity::class.java)
 
     @Test
     fun clickButton() {
@@ -36,5 +36,10 @@ class ExampleInstrumentedTest {
         R.id.secondText.checkHasText("Well done!")
         activity.rotateOrientation()
         checkCurrentActivityIs<SecondActivity>()
+
+        rule.waitOnMainThread { callback ->
+            // wait fomr something
+            callback()
+        }
     }
 }
