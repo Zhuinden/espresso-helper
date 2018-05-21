@@ -10,8 +10,9 @@ Fret not! With the help of Espresso-Helper, heavily borrowing assertions and mat
 
 ``` kotlin
 import com.zhuinden.espressohelper.*
+import my.package.R.id.*
 
-R.id.button.performClick()
+button.performClick()
 ```
 
 The library is Kotlin-based, for extension functions.
