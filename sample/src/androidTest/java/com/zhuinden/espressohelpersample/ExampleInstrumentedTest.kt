@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.zhuinden.espressohelper.*
+import com.zhuinden.espressohelpersample.R.id.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,15 +26,15 @@ class ExampleInstrumentedTest {
     @Test
     fun clickButton() {
         val activity = rule.activity
-        R.id.container.checkIsAssignableFrom<ConstraintLayout>()
-        R.id.helloWorld.checkHasText(R.string.hello_world)
-        R.id.username.performTypeText("This is a test!")
-        R.id.password.performTypeText("hunter2")
+        container.checkIsAssignableFrom<ConstraintLayout>()
+        helloWorld.checkHasText(R.string.hello_world)
+        username.performTypeText("This is a test!")
+        password.performTypeText("hunter2")
         activity.rotateOrientation()
         activity.rotateOrientation()
-        R.id.button.performClick()
+        button.performClick()
         activity.rotateOrientation()
-        R.id.secondText.checkHasText("Well done!")
+        secondText.checkHasText("Well done!")
         activity.rotateOrientation()
         checkCurrentActivityIs<SecondActivity>()
 
