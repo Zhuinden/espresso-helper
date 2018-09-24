@@ -19,8 +19,18 @@ class TextActivityTest {
     }
 
     @Test
+    fun hasEmptyTextFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkHasEmptyText() }
+    }
+
+    @Test
     fun hasAnyText(){
         R.id.tv_sample_text_view.checkHasAnyText()
+    }
+
+    @Test
+    fun hasAnyTextFailure(){
+        verifyAssertion { R.id.tv_empty_text_view.checkHasAnyText() }
     }
 
     @Test
@@ -29,8 +39,18 @@ class TextActivityTest {
     }
 
     @Test
+    fun containsTextFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkContainsText("Halo") }
+    }
+
+    @Test
     fun startsWithText(){
         R.id.tv_sample_text_view.checkStartsWithText("Hello")
+    }
+
+    @Test
+    fun startsWithTextFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkStartsWithText("World!") }
     }
 
     @Test
@@ -39,8 +59,18 @@ class TextActivityTest {
     }
 
     @Test
+    fun hasSpecificTextFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkHasText("Halo") }
+    }
+
+    @Test
     fun hasSpecificTextWithId(){
         R.id.tv_sample_text_view.checkHasText(R.string.hello_world)
+    }
+
+    @Test
+    fun hasSpecificTextWithIdFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkHasText(R.string.app_name) }
     }
 
     @Test
@@ -49,12 +79,27 @@ class TextActivityTest {
     }
 
     @Test
+    fun doesNotContainSpecifiedTextFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkHasNoText("Hello world!") }
+    }
+
+    @Test
     fun doesNotContainSpecifiedTextWithId(){
         R.id.tv_empty_text_view.checkHasNoText(R.string.app_name)
     }
 
     @Test
+    fun doesNotContainSpecifiedTextWithIdFailure(){
+        verifyAssertion { R.id.tv_sample_text_view.checkHasNoText(R.string.hello_world) }
+    }
+
+    @Test
     fun hasContentDescription(){
         R.id.iv_image_view.checkHasContentDescription("espresso-helper")
+    }
+
+    @Test
+    fun hasContentDescriptionFailure(){
+        verifyAssertion { R.id.iv_image_view.checkHasContentDescription("Halo") }
     }
 }
