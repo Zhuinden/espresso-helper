@@ -9,7 +9,6 @@ import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TextInputLayout
-import android.support.test.espresso.matcher.BoundedMatcher
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.ViewPager
@@ -17,6 +16,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
+import androidx.test.espresso.matcher.BoundedMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
@@ -253,7 +253,8 @@ class DrawableMatcher(@DrawableRes private val resId: Int = -1, private val draw
 
             val convertDrawable = drawable ?: (it as ImageView).drawable
             val bitmap = toBitmap?.invoke(convertDrawable) ?: drawableToBitmap(convertDrawable)
-            val otherBitmap = toBitmap?.invoke(expectedDrawable) ?: drawableToBitmap(expectedDrawable)
+            val otherBitmap = toBitmap?.invoke(expectedDrawable)
+                ?: drawableToBitmap(expectedDrawable)
 
             return bitmap.sameAs(otherBitmap)
         } ?: false
@@ -360,7 +361,7 @@ class BackgroundColorMatcher(@ColorRes private val resId: Int = -1,
                     when (current) {
                         is ColorDrawable -> current.color == expectedColor
                         is GradientDrawable -> if (android.os.Build.VERSION.SDK_INT >= 24) {
-                            current.color.defaultColor == expectedColor
+                            current.color?.defaultColor == expectedColor
                         } else {
                             false // not much I can do here
                         }

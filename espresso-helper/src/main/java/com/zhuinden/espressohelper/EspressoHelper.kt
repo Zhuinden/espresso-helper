@@ -26,27 +26,27 @@ import android.net.Uri
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
-import android.support.annotation.StringRes
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.TabLayout
 import android.support.design.widget.TextInputLayout
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.*
-import android.support.test.espresso.action.EspressoKey
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.contrib.DrawerActions
-import android.support.test.espresso.contrib.NavigationViewActions
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
-import android.support.test.runner.lifecycle.Stage
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.RecyclerView
+import androidx.test.espresso.*
+import androidx.test.espresso.action.EspressoKey
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.contrib.DrawerActions
+import androidx.test.espresso.contrib.NavigationViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import androidx.test.runner.lifecycle.Stage
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.*
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -279,10 +279,10 @@ fun ViewInteraction.performScrollRecyclerToEnd() {
 
         override fun perform(controller: UiController, view: View) {
             if (view is RecyclerView) {
-                val position = view.adapter.itemCount - 1
+                val position = view.adapter!!.itemCount - 1
                 view.scrollToPosition(position)
                 controller.loopMainThreadUntilIdle()
-                val lastView = view.findViewHolderForLayoutPosition(position).itemView
+                val lastView = view.findViewHolderForLayoutPosition(position)!!.itemView
                 view.scrollBy(0, lastView.height)
                 controller.loopMainThreadUntilIdle()
             }

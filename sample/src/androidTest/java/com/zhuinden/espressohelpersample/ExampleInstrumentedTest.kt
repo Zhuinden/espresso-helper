@@ -2,8 +2,8 @@
 package com.zhuinden.espressohelpersample
 
 import android.support.constraint.ConstraintLayout
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
 import com.zhuinden.espressohelper.*
 import com.zhuinden.espressohelpersample.R.id.*
 import org.junit.Rule
