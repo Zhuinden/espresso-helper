@@ -901,6 +901,14 @@ fun Int.checkHasAnyTag(vararg tags: String) {
     matchView().checkHasAnyTag(*tags)
 }
 
+fun Int.checkHasHint(@StringRes hintId: Int){
+    matchView().checkHasHint(hintId)
+}
+
+fun Int.checkHasHint(hint: String){
+    matchView().checkHasHint(hint)
+}
+
 fun Int.checkDoesNotExist() {
     matchView().checkDoesNotExist()
 }
