@@ -1,9 +1,8 @@
 
 package com.zhuinden.espressohelpersample
 
-import android.support.constraint.ConstraintLayout
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.test.rule.ActivityTestRule
 import com.zhuinden.espressohelper.*
 import com.zhuinden.espressohelpersample.R.id.*
 import org.junit.Rule
@@ -16,7 +15,7 @@ import org.junit.runner.RunWith
  *
  * See [Testing documentation](http://d.android.com/tools/Testing).
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(androidx.test.ext.junit.runners.AndroidJUnit4::class)
 class ExampleInstrumentedTest {
 
     @JvmField

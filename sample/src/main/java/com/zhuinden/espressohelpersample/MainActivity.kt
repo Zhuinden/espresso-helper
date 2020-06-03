@@ -1,10 +1,9 @@
 package com.zhuinden.espressohelpersample
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.sdk15.listeners.onClick
-import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button.onClick {
-            startActivity<SecondActivity>()
+        button.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java))
         }
     }
 }

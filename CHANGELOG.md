@@ -1,3 +1,7 @@
+# Espresso-Helper 1.0.0 (2020-06-03)
+
+- Update: make AndroidX.
+
 # Espresso-Helper 0.1.3 (2018-05-12)
 
 - **Bugfix:** add missing `'com.android.support.test:rules:1.0.2'` transitive dependency, you don't need to add it yourself anymore 

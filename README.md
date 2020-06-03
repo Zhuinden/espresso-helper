@@ -1,8 +1,8 @@
 # Espresso Helper
 
-Note: The repo is marked stagnant, because it is not developed actively enough to keep up against libraries that are more likely to guarantee handling of edge-case behavior.
+Note: This repository is not under active development, but it was updated recently nonetheless.
 
-Consider checking out https://github.com/SchibstedSpain/Barista instead. But if you like the idea of `fun @receiver:LayoutRes Int.*` assertions (which is what Espresso-Helper is doing), then it's actually really easy to write them for that library too ;)
+Consider checking out https://github.com/SchibstedSpain/Barista.
 
 -----
 
@@ -50,7 +50,7 @@ In order to use Espresso Helper, you need to add jitpack to your project root gr
 
 and add the compile dependency to your module level gradle.
 
-    androidTestImplementation 'com.github.Zhuinden:espresso-helper:0.1.3'
+    androidTestImplementation 'com.github.Zhuinden:espresso-helper:1.0.0'
 
 
 ## License

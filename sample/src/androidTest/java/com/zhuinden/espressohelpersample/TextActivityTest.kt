@@ -1,13 +1,12 @@
 package com.zhuinden.espressohelpersample
 
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
 import com.zhuinden.espressohelper.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(androidx.test.ext.junit.runners.AndroidJUnit4::class)
 class TextActivityTest {
     @JvmField
     @field:Rule

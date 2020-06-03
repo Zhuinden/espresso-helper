@@ -17,36 +17,37 @@
  */
 package com.zhuinden.espressohelper
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.IdRes
-import android.support.annotation.StringRes
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.TabLayout
-import android.support.design.widget.TextInputLayout
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.*
-import android.support.test.espresso.action.EspressoKey
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.contrib.DrawerActions
-import android.support.test.espresso.contrib.NavigationViewActions
-import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
-import android.support.test.runner.lifecycle.Stage
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.test.espresso.*
+import androidx.test.espresso.action.EspressoKey
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.contrib.DrawerActions
+import androidx.test.espresso.contrib.NavigationViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import androidx.test.runner.lifecycle.Stage
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.*
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -65,10 +66,12 @@ fun <T: Activity> ActivityTestRule<T>.waitOnMainThread(duration: Long = 15L, tim
 }
 
 // Rotation
+@SuppressLint("SourceLockedOrientationActivity")
 fun Activity.rotateToLandscape() {
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 }
 
+@SuppressLint("SourceLockedOrientationActivity")
 fun Activity.rotateToPortrait() {
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 }
@@ -105,107 +108,107 @@ inline fun <reified T : Activity> checkCurrentActivityIs() {
 
 // ID matchers
 
-fun Int.asIdViewMatcher() = ViewMatchers.withId(this)
+fun @receiver:androidx.annotation.IdRes Int.asIdViewMatcher() = ViewMatchers.withId(this)
 
 fun matchRoot(): ViewInteraction = matchView(ViewMatchers.isRoot())
 
 fun matchView(matcher: Matcher<View>): ViewInteraction = Espresso.onView(matcher)
 
-fun Int.matchView(): ViewInteraction = matchView(asIdViewMatcher())
+fun @receiver:androidx.annotation.IdRes Int.matchView(): ViewInteraction = matchView(asIdViewMatcher())
 
-fun Int.performViewAction(vararg action: ViewAction) = matchView().perform(*action)
+fun @receiver:androidx.annotation.IdRes Int.performViewAction(vararg action: ViewAction) = matchView().perform(*action)
 
 // ID extensions
 
-fun Int.performClick() = matchView().performClick()
+fun @receiver:androidx.annotation.IdRes Int.performClick() = matchView().performClick()
 
-fun Int.performTypeText(text: String) = matchView().performTypeText(text)
+fun @receiver:androidx.annotation.IdRes Int.performTypeText(text: String) = matchView().performTypeText(text)
 
-fun Int.performTypeTextIntoFocusedView(text: String) = matchView().performTypeTextIntoFocusedView(text)
+fun @receiver:androidx.annotation.IdRes Int.performTypeTextIntoFocusedView(text: String) = matchView().performTypeTextIntoFocusedView(text)
 
-fun Int.performReplaceText(text: String) = matchView().performReplaceText(text)
+fun @receiver:androidx.annotation.IdRes Int.performReplaceText(text: String) = matchView().performReplaceText(text)
 
-fun Int.performClearText() = matchView().performClearText()
+fun @receiver:androidx.annotation.IdRes Int.performClearText() = matchView().performClearText()
 
-fun Int.performClick(inputDevice: Int, buttonState: Int) = matchView().performClick(inputDevice, buttonState)
+fun @receiver:androidx.annotation.IdRes Int.performClick(inputDevice: Int, buttonState: Int) = matchView().performClick(inputDevice, buttonState)
 
-fun Int.performClick(rollbackAction: ViewAction) = matchView().performClick(rollbackAction)
+fun @receiver:androidx.annotation.IdRes Int.performClick(rollbackAction: ViewAction) = matchView().performClick(rollbackAction)
 
-fun Int.performCloseSoftKeyboard() = matchView().performCloseSoftKeyboard()
+fun @receiver:androidx.annotation.IdRes Int.performCloseSoftKeyboard() = matchView().performCloseSoftKeyboard()
 
-fun Int.performPressKey(keyCode: Int) = matchView().performPressKey(keyCode)
+fun @receiver:androidx.annotation.IdRes Int.performPressKey(keyCode: Int) = matchView().performPressKey(keyCode)
 
-fun Int.performPressKey(espressoKey: EspressoKey) = matchView().performPressKey(espressoKey)
+fun @receiver:androidx.annotation.IdRes Int.performPressKey(espressoKey: EspressoKey) = matchView().performPressKey(espressoKey)
 
-fun Int.performPressMenu() = matchView().performPressMenu()
+fun @receiver:androidx.annotation.IdRes Int.performPressMenu() = matchView().performPressMenu()
 
-fun Int.performPressBack() = matchView().performPressBack()
+fun @receiver:androidx.annotation.IdRes Int.performPressBack() = matchView().performPressBack()
 
-fun Int.performPressBackUnconditionally() = matchView().performPressBackUnconditionally()
+fun @receiver:androidx.annotation.IdRes Int.performPressBackUnconditionally() = matchView().performPressBackUnconditionally()
 
-fun Int.performPressImeActionButton() = matchView().performPressImeActionButton()
+fun @receiver:androidx.annotation.IdRes Int.performPressImeActionButton() = matchView().performPressImeActionButton()
 
-fun Int.performScrollTo() = matchView().performScrollTo()
+fun @receiver:androidx.annotation.IdRes Int.performScrollTo() = matchView().performScrollTo()
 
-fun Int.performDoubleClick() = matchView().performDoubleClick()
+fun @receiver:androidx.annotation.IdRes Int.performDoubleClick() = matchView().performDoubleClick()
 
-fun Int.performLongClick() = matchView().performLongClick()
+fun @receiver:androidx.annotation.IdRes Int.performLongClick() = matchView().performLongClick()
 
-fun Int.performOpenLink(linkTextMatcher: Matcher<String>, uriMatcher: Matcher<Uri>) = matchView().performOpenLink(linkTextMatcher, uriMatcher)
+fun @receiver:androidx.annotation.IdRes Int.performOpenLink(linkTextMatcher: Matcher<String>, uriMatcher: Matcher<Uri>) = matchView().performOpenLink(linkTextMatcher, uriMatcher)
 
-fun Int.performOpenLinkWithText(linkText: String) = matchView().performOpenLinkWithText(linkText)
+fun @receiver:androidx.annotation.IdRes Int.performOpenLinkWithText(linkText: String) = matchView().performOpenLinkWithText(linkText)
 
-fun Int.performOpenLinkWithUri(uri: String) = matchView().performOpenLinkWithUri(uri)
+fun @receiver:androidx.annotation.IdRes Int.performOpenLinkWithUri(uri: String) = matchView().performOpenLinkWithUri(uri)
 
-fun Int.performSwipeUp() = matchView().performSwipeUp()
+fun @receiver:androidx.annotation.IdRes Int.performSwipeUp() = matchView().performSwipeUp()
 
-fun Int.performSwipeDown() = matchView().performSwipeDown()
+fun @receiver:androidx.annotation.IdRes Int.performSwipeDown() = matchView().performSwipeDown()
 
-fun Int.performSwipeLeft() = matchView().performSwipeLeft()
+fun @receiver:androidx.annotation.IdRes Int.performSwipeLeft() = matchView().performSwipeLeft()
 
-fun Int.performSwipeRight() = matchView().performSwipeRight()
+fun @receiver:androidx.annotation.IdRes Int.performSwipeRight() = matchView().performSwipeRight()
 
 // Kokoa-actions
 
-fun Int.performIdleAction(duration: Long = IdleAction.DEFAULT_DURATION) = matchView().performIdleAction(duration)
+fun @receiver:androidx.annotation.IdRes Int.performIdleAction(duration: Long = IdleAction.DEFAULT_DURATION) = matchView().performIdleAction(duration)
 
-fun Int.performScrollRecyclerToStart() = matchView().performScrollRecyclerToStart()
+fun @receiver:androidx.annotation.IdRes Int.performScrollRecyclerToStart() = matchView().performScrollRecyclerToStart()
 
-fun Int.performScrollRecyclerToEnd() = matchView().performScrollRecyclerToEnd()
+fun @receiver:androidx.annotation.IdRes Int.performScrollRecyclerToEnd() = matchView().performScrollRecyclerToEnd()
 
-fun Int.performScrollRecyclerTo(position: Int) = matchView().performScrollRecyclerTo(position)
+fun @receiver:androidx.annotation.IdRes Int.performScrollRecyclerTo(position: Int) = matchView().performScrollRecyclerTo(position)
 
-fun Int.performScrollRecyclerTo(matcher: Matcher<View>) = matchView().performScrollRecyclerTo(matcher)
+fun @receiver:androidx.annotation.IdRes Int.performScrollRecyclerTo(matcher: Matcher<View>) = matchView().performScrollRecyclerTo(matcher)
 
-fun Int.recyclerAdapterSize(): Int = matchView().recyclerAdapterSize()
+fun @receiver:androidx.annotation.IdRes Int.recyclerAdapterSize(): Int = matchView().recyclerAdapterSize()
 
-fun Int.performScrollScrollViewToStart() = matchView().performScrollScrollViewToStart()
+fun @receiver:androidx.annotation.IdRes Int.performScrollScrollViewToStart() = matchView().performScrollScrollViewToStart()
 
-fun Int.performScrollScrollViewToEnd() = matchView().performScrollScrollViewToEnd()
+fun @receiver:androidx.annotation.IdRes Int.performScrollScrollViewToEnd() = matchView().performScrollScrollViewToEnd()
 
-fun Int.performScrollScrollViewTo(position: Int) = matchView().performScrollScrollViewTo(position)
+fun @receiver:androidx.annotation.IdRes Int.performScrollScrollViewTo(position: Int) = matchView().performScrollScrollViewTo(position)
 
-fun Int.scrollViewSize(): Int = matchView().scrollViewSize()
+fun @receiver:androidx.annotation.IdRes Int.scrollViewSize(): Int = matchView().scrollViewSize()
 
-fun Int.performSetCheckableChecked(checked: Boolean) = matchView().performSetCheckableChecked(checked)
+fun @receiver:androidx.annotation.IdRes Int.performSetCheckableChecked(checked: Boolean) = matchView().performSetCheckableChecked(checked)
 
-fun Int.performOpenNavigationDrawer(gravity: Int = Gravity.START) = matchView().performOpenNavigationDrawer(gravity)
+fun @receiver:androidx.annotation.IdRes Int.performOpenNavigationDrawer(gravity: Int = Gravity.START) = matchView().performOpenNavigationDrawer(gravity)
 
-fun Int.performCloseNavigationDrawer(gravity: Int = Gravity.START) = matchView().performCloseNavigationDrawer(gravity)
+fun @receiver:androidx.annotation.IdRes Int.performCloseNavigationDrawer(gravity: Int = Gravity.START) = matchView().performCloseNavigationDrawer(gravity)
 
-fun Int.performNavigateNavViewTo(id: Int) = matchView().performNavigateNavViewTo(id)
+fun @receiver:androidx.annotation.IdRes Int.performNavigateNavViewTo(id: Int) = matchView().performNavigateNavViewTo(id)
 
-fun Int.performSetProgressBarProgress(number: Int) = matchView().performSetProgressBarProgress(number)
+fun @receiver:androidx.annotation.IdRes Int.performSetProgressBarProgress(number: Int) = matchView().performSetProgressBarProgress(number)
 
-fun Int.performSetRatingBarRatingAt(number: Float) = matchView().performSetRatingBarRatingAt(number)
+fun @receiver:androidx.annotation.IdRes Int.performSetRatingBarRatingAt(number: Float) = matchView().performSetRatingBarRatingAt(number)
 
-fun Int.performSetBottomNavViewSelectedItem(id: Int) = matchView().performSetBottomNavViewSelectedItem(id)
+fun @receiver:androidx.annotation.IdRes Int.performSetBottomNavViewSelectedItem(id: Int) = matchView().performSetBottomNavViewSelectedItem(id)
 
-fun Int.performSelectTabLayoutTab(index: Int) = matchView().performSelectTabLayoutTab(index)
+fun @receiver:androidx.annotation.IdRes Int.performSelectTabLayoutTab(index: Int) = matchView().performSelectTabLayoutTab(index)
 
-fun Int.getTabLayoutSelectedItem(): Int = matchView().getTabLayoutSelectedItem()
+fun @receiver:androidx.annotation.IdRes Int.getTabLayoutSelectedItem(): Int = matchView().getTabLayoutSelectedItem()
 
-fun Int.performSetRefreshLayoutRefreshing(refreshing: Boolean) = matchView().performSetRefreshLayoutRefreshing(refreshing)
+fun @receiver:androidx.annotation.IdRes Int.performSetRefreshLayoutRefreshing(refreshing: Boolean) = matchView().performSetRefreshLayoutRefreshing(refreshing)
 
 fun <T : RecyclerView.ViewHolder> Int.performActionOnRecyclerHolderItem(viewHolderMatcher: Matcher<T>, action: ViewAction) = matchView().performActionOnRecyclerHolderItem(viewHolderMatcher, action)
 
@@ -279,10 +282,10 @@ fun ViewInteraction.performScrollRecyclerToEnd() {
 
         override fun perform(controller: UiController, view: View) {
             if (view is RecyclerView) {
-                val position = view.adapter.itemCount - 1
+                val position = view.adapter!!.itemCount - 1
                 view.scrollToPosition(position)
                 controller.loopMainThreadUntilIdle()
-                val lastView = view.findViewHolderForLayoutPosition(position).itemView
+                val lastView = view.findViewHolderForLayoutPosition(position)!!.itemView
                 view.scrollBy(0, lastView.height)
                 controller.loopMainThreadUntilIdle()
             }
@@ -520,7 +523,7 @@ fun String.isTextOf(@IdRes viewId: Int) {
     viewId.matchView().check(ViewAssertions.matches(ViewMatchers.withText(this)))
 }
 
-fun Int.isStringResOf(@IdRes viewId: Int) {
+fun @receiver:androidx.annotation.StringRes Int.isStringResOf(@IdRes viewId: Int) {
     viewId.matchView().check(ViewAssertions.matches(ViewMatchers.withText(this)))
 }
 
@@ -821,247 +824,247 @@ fun ViewInteraction.checkIsBottomNavigationViewItemSelected(id: Int) {
 }
 
 // Kokoa assertions on IDs
-fun Int.checkViewAssertion(viewAssertion: ViewAssertion) {
+fun @receiver:androidx.annotation.IdRes Int.checkViewAssertion(viewAssertion: ViewAssertion) {
     matchView().check(viewAssertion)
 }
 
-fun Int.checkIsDisplayed() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsDisplayed() {
     matchView().checkIsDisplayed()
 }
 
-fun Int.checkIsNotDisplayed() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotDisplayed() {
     matchView().checkIsNotDisplayed()
 }
 
-fun Int.checkIsCompletelyDisplayed() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsCompletelyDisplayed() {
     matchView().checkIsCompletelyDisplayed()
 }
 
-fun Int.checkIsNotCompletelyDisplayed() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotCompletelyDisplayed() {
     matchView().checkIsNotCompletelyDisplayed()
 }
 
-fun Int.checkIsVisible() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsVisible() {
     matchView().checkIsVisible()
 }
 
-fun Int.checkIsInvisible() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsInvisible() {
     matchView().checkIsInvisible()
 }
 
-fun Int.checkIsGone() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsGone() {
     matchView().checkIsGone()
 }
 
-fun Int.checkIsSelected() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsSelected() {
     matchView().checkIsSelected()
 }
 
-fun Int.checkIsNotSelected() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotSelected() {
     matchView().checkIsNotSelected()
 }
 
-fun Int.checkIsFocused() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsFocused() {
     matchView().checkIsFocused()
 }
 
-fun Int.checkIsNotFocused() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotFocused() {
     matchView().checkIsNotFocused()
 }
 
-fun Int.checkIsFocusable() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsFocusable() {
     matchView().checkIsFocusable()
 }
 
-fun Int.checkIsNotFocusable() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotFocusable() {
     matchView().checkIsNotFocusable()
 }
 
-fun Int.checkIsClickable() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsClickable() {
     matchView().checkIsClickable()
 }
 
-fun Int.checkIsNotClickable() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotClickable() {
     matchView().checkIsNotClickable()
 }
 
-fun Int.checkIsEnabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsEnabled() {
     matchView().checkIsEnabled()
 }
 
-fun Int.checkIsDisabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsDisabled() {
     matchView().checkIsDisabled()
 }
 
-fun Int.checkHasTag(tag: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasTag(tag: String) {
     matchView().checkHasTag(tag)
 }
 
-fun Int.checkHasAnyTag(vararg tags: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasAnyTag(vararg tags: String) {
     matchView().checkHasAnyTag(*tags)
 }
 
-fun Int.checkHasHint(@StringRes hintId: Int){
+fun @receiver:androidx.annotation.IdRes Int.checkHasHint(@StringRes hintId: Int){
     matchView().checkHasHint(hintId)
 }
 
-fun Int.checkHasHint(hint: String){
+fun @receiver:androidx.annotation.IdRes Int.checkHasHint(hint: String){
     matchView().checkHasHint(hint)
 }
 
-fun Int.checkDoesNotExist() {
+fun @receiver:androidx.annotation.IdRes Int.checkDoesNotExist() {
     matchView().checkDoesNotExist()
 }
 
-fun Int.checkHasBackgroundColor(@ColorRes resId: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasBackgroundColor(@ColorRes resId: Int) {
     matchView().checkHasBackgroundColor(resId)
 }
 
-fun Int.checkHasBackgroundColor(colorCode: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasBackgroundColor(colorCode: String) {
     matchView().checkHasBackgroundColor(colorCode)
 }
 
-fun Int.checkHasEmptyText() {
+fun @receiver:androidx.annotation.IdRes Int.checkHasEmptyText() {
     matchView().checkHasEmptyText()
 }
 
-fun Int.checkHasAnyText() {
+fun @receiver:androidx.annotation.IdRes Int.checkHasAnyText() {
     matchView().checkHasAnyText()
 }
 
-fun Int.checkHasText(text: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasText(text: String) {
     matchView().checkHasText(text)
 }
 
-fun Int.checkHasText(@StringRes resId: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasText(@StringRes resId: Int) {
     matchView().checkHasText(resId)
 }
 
-fun Int.checkHasText(matcher: Matcher<String>) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasText(matcher: Matcher<String>) {
     matchView().checkHasText(matcher)
 }
 
-fun Int.checkHasTextColor(@ColorRes resId: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasTextColor(@ColorRes resId: Int) {
     matchView().checkHasTextColor(resId)
 }
 
-fun Int.checkHasNoText(text: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasNoText(text: String) {
     matchView().checkHasNoText(text)
 }
 
-fun Int.checkHasNoText(@StringRes resId: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasNoText(@StringRes resId: Int) {
     matchView().checkHasNoText(resId)
 }
 
-fun Int.checkHasContentDescription(text: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkHasContentDescription(text: String) {
     matchView().checkHasContentDescription(text)
 }
 
-fun Int.checkContainsText(text: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkContainsText(text: String) {
     matchView().checkContainsText(text)
 }
 
-fun Int.checkStartsWithText(text: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkStartsWithText(text: String) {
     matchView().checkStartsWithText(text)
 }
 
-fun Int.checkIsChecked() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsChecked() {
     matchView().checkIsChecked()
 }
 
-fun Int.checkIsNotChecked() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNotChecked() {
     matchView().checkIsNotChecked()
 }
 
-fun Int.checkIsViewPagerAtPage(index: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsViewPagerAtPage(index: Int) {
     matchView().checkIsViewPagerAtPage(index)
 }
 
-fun Int.checkIsRecyclerSize(size: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsRecyclerSize(size: Int) {
     matchView().checkIsRecyclerSize(size)
 }
 
-fun Int.checkIsListSize(size: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsListSize(size: Int) {
     matchView().checkIsListSize(size)
 }
 
-fun Int.checkIsNavigationViewItemChecked(id: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsNavigationViewItemChecked(id: Int) {
     matchView().checkIsNavigationViewItemChecked(id)
 }
 
-fun Int.checkIsProgressBarProgress(number: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsProgressBarProgress(number: Int) {
     matchView().checkIsProgressBarProgress(number)
 }
 
-fun Int.checkIsRatingBarRating(number: Float) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsRatingBarRating(number: Float) {
     matchView().checkIsRatingBarRating(number)
 }
 
-fun Int.checkIsTabLayoutTabSelected(index: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTabLayoutTabSelected(index: Int) {
     matchView().checkIsTabLayoutTabSelected(index)
 }
 
-fun Int.checkIsTextInputLayoutHint(hint: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutHint(hint: String) {
     matchView().checkIsTextInputLayoutHint(hint)
 }
 
-fun Int.checkIsTextInputLayoutHintEnabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutHintEnabled() {
     matchView().checkIsTextInputLayoutHintEnabled()
 }
 
-fun Int.checkIsTextInputLayoutHintDisabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutHintDisabled() {
     matchView().checkIsTextInputLayoutHintDisabled()
 }
 
-fun Int.checkIsTextInputLayoutError(error: String) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutError(error: String) {
     matchView().checkIsTextInputLayoutError(error)
 }
 
-fun Int.checkIsTextInputLayoutErrorEnabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutErrorEnabled() {
     matchView().checkIsTextInputLayoutErrorEnabled()
 }
 
-fun Int.checkIsTextInputLayoutErrorDisabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutErrorDisabled() {
     matchView().checkIsTextInputLayoutErrorDisabled()
 }
 
-fun Int.checkIsTextInputLayoutCounterMaxLength(length: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutCounterMaxLength(length: Int) {
     matchView().checkIsTextInputLayoutCounterMaxLength(length)
 }
 
-fun Int.checkIsTextInputLayoutCounterEnabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutCounterEnabled() {
     matchView().checkIsTextInputLayoutCounterEnabled()
 }
 
-fun Int.checkIsTextInputLayoutCounterDisabled() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsTextInputLayoutCounterDisabled() {
     matchView().checkIsTextInputLayoutCounterDisabled()
 }
 
-fun Int.checkIsImageViewDrawable(@DrawableRes resId: Int, toBitmap: ((drawable: Drawable) -> Bitmap)? = null) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsImageViewDrawable(@DrawableRes resId: Int, toBitmap: ((drawable: Drawable) -> Bitmap)? = null) {
     matchView().checkIsImageViewDrawable(resId, toBitmap)
 }
 
-fun Int.checkIsImageViewDrawable(drawable: Drawable, toBitmap: ((drawable: Drawable) -> Bitmap)? = null) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsImageViewDrawable(drawable: Drawable, toBitmap: ((drawable: Drawable) -> Bitmap)? = null) {
     matchView().checkIsImageViewDrawable(drawable, toBitmap)
 }
 
-fun Int.checkIsSwipeRefreshLayoutRefreshing() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsSwipeRefreshLayoutRefreshing() {
     matchView().checkIsSwipeRefreshLayoutRefreshing()
 }
 
-fun Int.checkIsSwipeRefreshLayoutNotRefreshing() {
+fun @receiver:androidx.annotation.IdRes Int.checkIsSwipeRefreshLayoutNotRefreshing() {
     matchView().checkIsSwipeRefreshLayoutNotRefreshing()
 }
 
-fun Int.checkIsBottomNavigationViewItemSelected(id: Int) {
+fun @receiver:androidx.annotation.IdRes Int.checkIsBottomNavigationViewItemSelected(id: Int) {
     matchView().checkIsBottomNavigationViewItemSelected(id)
 }
 
-inline fun <reified T : View> Int.checkHasChild() {
+inline fun <reified T : View> @receiver:androidx.annotation.IdRes Int.checkHasChild() {
     matchView().checkHasChild<T>()
 }
 
-inline fun <reified T : View> Int.checkIsAssignableFrom() {
+inline fun <reified T : View> @receiver:androidx.annotation.IdRes Int.checkIsAssignableFrom() {
     matchView().checkIsAssignableFrom<T>()
 }
 
