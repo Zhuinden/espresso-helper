@@ -1,5 +1,14 @@
 # Espresso Helper
 
+Note: The repo is marked stagnant, because it is not developed actively enough to keep up against libraries that are more likely to guarantee handling of edge-case behavior.
+
+Consider checking out https://github.com/SchibstedSpain/Barista instead. But if you like the idea of `fun @receiver:LayoutRes Int.*` assertions (which is what Espresso-Helper is doing), then it's actually really easy to write them for that library too ;)
+
+-----
+
+-----
+
+
 Do you want to write UI acceptance tests, but find Espresso demotivational with its long and verbose way of clicking a button?
 
 ``` java
