@@ -1,3 +1,11 @@
+# Espresso-Helper 1.1.0 (2023-08-13)
+
+- Update every dependency.
+
+- Kotlin is now 1.8.22.
+
+- CompileSdk is now 33.
+
 # Espresso-Helper 1.0.0 (2020-06-03)
 
 - Update: make AndroidX.

@@ -29,13 +29,12 @@ class ExampleInstrumentedTest {
         helloWorld.checkHasText(R.string.hello_world)
         username.performTypeText("This is a test!")
         password.performTypeText("hunter2")
-        activity.rotateOrientation()
-        activity.rotateOrientation()
+
         button.performClick()
+        checkCurrentActivityIs<SecondActivity>()
         activity.rotateOrientation()
         secondText.checkHasText("Well done!")
         activity.rotateOrientation()
-        checkCurrentActivityIs<SecondActivity>()
 
         rule.waitOnMainThread { callback ->
             // wait fomr something

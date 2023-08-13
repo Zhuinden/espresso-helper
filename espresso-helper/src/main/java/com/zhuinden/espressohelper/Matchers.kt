@@ -360,7 +360,7 @@ class BackgroundColorMatcher(@ColorRes private val resId: Int = -1,
                     when (current) {
                         is ColorDrawable -> current.color == expectedColor
                         is GradientDrawable -> if (android.os.Build.VERSION.SDK_INT >= 24) {
-                            current.color.defaultColor == expectedColor
+                            current.color?.defaultColor == expectedColor
                         } else {
                             false // not much I can do here
                         }
